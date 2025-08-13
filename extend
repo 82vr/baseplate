@@ -1,0 +1,65 @@
+
+local baseplate = workspace:FindFirstChild("Baseplate")
+
+
+local function createBaseplate()
+    
+    local existing = workspace:FindFirstChild("VEXZYHUB")
+    if existing then
+        existing:Destroy() 
+        print("Existing baseplate destroyed")
+    end
+
+    
+    if not workspace:FindFirstChild("VEXZYHUB") then
+        
+        local newBaseplate = Instance.new("Part")
+        newBaseplate.Name = "wtfloloBaseplate"
+        newBaseplate.Size = Vector3.new(3000, 17, 3000)  -- Larger baseplate size with 17 height
+
+        
+        newBaseplate.Position = baseplate and baseplate.Position + Vector3.new(0, 3.5, 0) or Vector3.new(0, 7, 0)
+
+        
+        newBaseplate.Anchored = true
+        newBaseplate.Color = Color3.fromRGB(255, 255, 255) -- Fully transparent (clear)
+        newBaseplate.Transparency = 1  -- Completely clear (invisible)
+        newBaseplate.Material = Enum.Material.SmoothPlastic
+        newBaseplate.Parent = workspace
+
+        print("Custom baseplate created with size: ", newBaseplate.Size)
+    end
+end
+
+
+local function removeBaseplate()
+    local customBaseplate = workspace:FindFirstChild("VEXZYHUB")
+    if customBaseplate then
+        customBaseplate:Destroy()
+        print("Custom baseplate removed")
+    end
+
+
+    local defaultBaseplate = workspace:FindFirstChild("Baseplate")
+    if defaultBaseplate then
+        defaultBaseplate.Size = Vector3.new(402, 16, 387)  -- Original size
+        defaultBaseplate.Position = Vector3.new(0, 0.5, 0) -- Adjusted position if needed
+        defaultBaseplate.Anchored = true
+        defaultBaseplate.Color = Color3.fromRGB(128, 128, 128) -- Default color
+        defaultBaseplate.Material = Enum.Material.SmoothPlastic
+        print("Original baseplate restored")
+    end
+end
+
+
+local isToggleOn = true  -- This will be dynamic based on the state of your toggle (true = toggle, false = button)
+
+
+if isToggleOn then
+   
+    createBaseplate()
+else
+    
+    
+    removeBaseplate()
+end
