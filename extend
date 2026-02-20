@@ -1,32 +1,39 @@
 local baseplate = workspace:FindFirstChild("Baseplate")
-
-local PLATE_NAME = "VEXZYHUBBaseplate"
+local FOLDER_NAME = "VEXZYHUBBaseplates"
+local TILE_SIZE = 2048
+local GRID_RADIUS = 20 -- 20 tiles in each direction = 40x40 grid, basically forever
 
 local function createBaseplate()
-    local existing = workspace:FindFirstChild(PLATE_NAME)
-    if existing then
-        existing:Destroy()
-    end
+    local existing = workspace:FindFirstChild(FOLDER_NAME)
+    if existing then existing:Destroy() end
 
     local baseplateY = baseplate and (baseplate.Position.Y + (baseplate.Size.Y / 2)) or 0
 
-    local newBaseplate = Instance.new("Part")
-    newBaseplate.Name = PLATE_NAME
-    newBaseplate.Size = Vector3.new(99999999, 1, 99999999) -- massively bigger
-    newBaseplate.Position = Vector3.new(0, baseplateY - 0.5, 0)
-    newBaseplate.Anchored = true
-    newBaseplate.CanCollide = true
-    newBaseplate.Transparency = 1
-    newBaseplate.Material = Enum.Material.SmoothPlastic
-    newBaseplate.Parent = workspace
+    local folder = Instance.new("Folder")
+    folder.Name = FOLDER_NAME
+    folder.Parent = workspace
 
-    print("Extended baseplate Y:", baseplateY - 0.5)
+    for x = -GRID_RADIUS, GRID_RADIUS do
+        for z = -GRID_RADIUS, GRID_RADIUS do
+            local tile = Instance.new("Part")
+            tile.Name = "Tile"
+            tile.Size = Vector3.new(TILE_SIZE, 1, TILE_SIZE)
+            tile.Position = Vector3.new(x * TILE_SIZE, baseplateY - 0.5, z * TILE_SIZE)
+            tile.Anchored = true
+            tile.CanCollide = true
+            tile.Transparency = 1
+            tile.Material = Enum.Material.SmoothPlastic
+            tile.Parent = folder
+        end
+    end
+
+    print("Tiled baseplate created, total tiles:", (GRID_RADIUS * 2 + 1) ^ 2)
 end
 
 local function removeBaseplate()
-    local customBaseplate = workspace:FindFirstChild(PLATE_NAME)
-    if customBaseplate then
-        customBaseplate:Destroy()
+    local folder = workspace:FindFirstChild(FOLDER_NAME)
+    if folder then
+        folder:Destroy()
         print("Extended baseplate removed")
     end
 end
