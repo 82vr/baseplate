@@ -8,13 +8,12 @@ local function createBaseplate()
         existing:Destroy()
     end
 
-    -- Match the exact top surface Y of the real baseplate, then offset down by half our plate height
     local baseplateY = baseplate and (baseplate.Position.Y + (baseplate.Size.Y / 2)) or 0
 
     local newBaseplate = Instance.new("Part")
     newBaseplate.Name = PLATE_NAME
-    newBaseplate.Size = Vector3.new(999999, 1, 999999)
-    newBaseplate.Position = Vector3.new(0, baseplateY - 0.5, 0) -- shift down so top surface is flush
+    newBaseplate.Size = Vector3.new(99999999, 1, 99999999) -- massively bigger
+    newBaseplate.Position = Vector3.new(0, baseplateY - 0.5, 0)
     newBaseplate.Anchored = true
     newBaseplate.CanCollide = true
     newBaseplate.Transparency = 1
