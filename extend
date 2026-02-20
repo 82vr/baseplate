@@ -1,65 +1,41 @@
-
 local baseplate = workspace:FindFirstChild("Baseplate")
 
+local PLATE_NAME = "VEXZYHUBBaseplate"
 
 local function createBaseplate()
-    
-    local existing = workspace:FindFirstChild("VEXZYHUB")
+    local existing = workspace:FindFirstChild(PLATE_NAME)
     if existing then
-        existing:Destroy() 
-        print("Existing baseplate destroyed")
+        existing:Destroy()
     end
 
-    
-    if not workspace:FindFirstChild("VEXZYHUB") then
-        
-        local newBaseplate = Instance.new("Part")
-        newBaseplate.Name = "wtfloloBaseplate"
-        newBaseplate.Size = Vector3.new(3000, 17, 3000)  -- Larger baseplate size with 17 height
+    -- Match the exact top surface Y of the real baseplate, then offset down by half our plate height
+    local baseplateY = baseplate and (baseplate.Position.Y + (baseplate.Size.Y / 2)) or 0
 
-        
-        newBaseplate.Position = baseplate and baseplate.Position + Vector3.new(0, 3.5, 0) or Vector3.new(0, 7, 0)
+    local newBaseplate = Instance.new("Part")
+    newBaseplate.Name = PLATE_NAME
+    newBaseplate.Size = Vector3.new(999999, 1, 999999)
+    newBaseplate.Position = Vector3.new(0, baseplateY - 0.5, 0) -- shift down so top surface is flush
+    newBaseplate.Anchored = true
+    newBaseplate.CanCollide = true
+    newBaseplate.Transparency = 1
+    newBaseplate.Material = Enum.Material.SmoothPlastic
+    newBaseplate.Parent = workspace
 
-        
-        newBaseplate.Anchored = true
-        newBaseplate.Color = Color3.fromRGB(255, 255, 255) -- Fully transparent (clear)
-        newBaseplate.Transparency = 1  -- Completely clear (invisible)
-        newBaseplate.Material = Enum.Material.SmoothPlastic
-        newBaseplate.Parent = workspace
-
-        print("Custom baseplate created with size: ", newBaseplate.Size)
-    end
+    print("Extended baseplate Y:", baseplateY - 0.5)
 end
-
 
 local function removeBaseplate()
-    local customBaseplate = workspace:FindFirstChild("VEXZYHUB")
+    local customBaseplate = workspace:FindFirstChild(PLATE_NAME)
     if customBaseplate then
         customBaseplate:Destroy()
-        print("Custom baseplate removed")
-    end
-
-
-    local defaultBaseplate = workspace:FindFirstChild("Baseplate")
-    if defaultBaseplate then
-        defaultBaseplate.Size = Vector3.new(402, 16, 387)  -- Original size
-        defaultBaseplate.Position = Vector3.new(0, 0.5, 0) -- Adjusted position if needed
-        defaultBaseplate.Anchored = true
-        defaultBaseplate.Color = Color3.fromRGB(128, 128, 128) -- Default color
-        defaultBaseplate.Material = Enum.Material.SmoothPlastic
-        print("Original baseplate restored")
+        print("Extended baseplate removed")
     end
 end
 
-
-local isToggleOn = true  -- This will be dynamic based on the state of your toggle (true = toggle, false = button)
-
+local isToggleOn = true
 
 if isToggleOn then
-   
     createBaseplate()
 else
-    
-    
     removeBaseplate()
 end
